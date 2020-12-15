@@ -8,7 +8,6 @@ class App extends Component {
     this.state = {
       loading: true,
       data: [],
-      selectedFile: null,
     };
   }
 
@@ -21,24 +20,6 @@ class App extends Component {
       console.log(err);
     }
   }
-
-  handleChange = (e) => {
-    this.setState({ ...this.state, selectedFile: e.target.files[0] });
-  };
-
-  handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append(
-      'file',
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    );
-    await fetch('/api/posting', {
-      method: 'POST',
-      body: formData,
-    });
-  };
 
   render() {
     return (
@@ -78,13 +59,6 @@ class App extends Component {
             </tbody>
           </table>
         )}
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <strong>Upload a .xlsx file:</strong>
-          </p>
-          <input onChange={this.handleChange} type="file" />
-          <button type="submit">Upload</button>
-        </form>
       </div>
     );
   }
