@@ -1,5 +1,6 @@
 const readXlsxFile = require('read-excel-file/node');
 
+//setting up schema for the excel parsing library to convert .xlsx file to a json object
 const schema = {
   datetime: {
     prop: 'datetime',

@@ -11,6 +11,7 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//setting up the file upload destination and file name
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/files');
@@ -22,11 +23,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single('file');
 
+//GET request
 app.get('/api/sightings', async (req, res) => {
   const result = await client.query('SELECT * from ufosightings');
   res.json(result.rows);
 });
 
+//POST request
 app.post('/api/posting', async (req, res) => {
   await upload(req, res, function (err) {
     if (err instanceof multer.MulterError) {
@@ -36,6 +39,7 @@ app.post('/api/posting', async (req, res) => {
     }
     return res.status(200).send(req.file);
   });
+  //using a helper function to parse the uploaded file
   let result = await parseFile('public/files/sample-file.xlsx');
   result = result.rows;
   result.forEach(async (entry) => {
@@ -53,7 +57,8 @@ app.post('/api/posting', async (req, res) => {
     };
     await client.query(query);
   });
-  console.log(result);
+
+  //deleting the file in public/files after it is parsed and added to the database
   fs.unlinkSync('public/files/sample-file.xlsx');
 });
 
