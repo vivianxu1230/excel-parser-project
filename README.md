@@ -16,4 +16,4 @@ You will also see any lint errors in the console.
 
 ### `npm server`
 
-Launches the express server running at [http://localhost:5000](http://localhost:5000)
+Launches the express server running at [http://localhost:5000](http://localhost:5000). To complete the tutorial, both ports need to be running.
